@@ -1,9 +1,6 @@
 package com.denys.consultorio.service;
 
-import com.denys.consultorio.model.Agendamento;
-import com.denys.consultorio.model.Disponibilidade;
-import com.denys.consultorio.model.Medico;
-import com.denys.consultorio.model.Paciente;
+import com.denys.consultorio.model.*;
 import com.denys.consultorio.repository.AgendamentoRepository;
 import com.denys.consultorio.repository.DisponibilidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,9 @@ import java.util.Optional;
 
 @Service
 public class AgendamentoService {
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private DisponibilidadeRepository disponibilidadeRepository;
@@ -49,6 +49,16 @@ public class AgendamentoService {
 
         return agendamentoRepository.save(agendamento);
 
+    }
+
+    public Agendamento cancelar(Long id) {
+        Agendamento agendamento = agendamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Agendamento não encontrado!"));
+
+        agendamento.setStatus(StatusAgend.CANCELADO);
+
+        emailService.enviarEmail(agendamento.getPaciente().getEmail(), "Consulta cancelada", "Sua consulta foi cancelada");
+        return agendamentoRepository.save(agendamento);
     }
 
     public List<Agendamento> findAll() {

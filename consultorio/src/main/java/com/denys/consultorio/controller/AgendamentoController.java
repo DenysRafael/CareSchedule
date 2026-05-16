@@ -32,7 +32,12 @@ public class AgendamentoController {
     }
 
     @PutMapping("/{id}")
-    public Agendamento update(@PathVariable Long id, @RequestBody Agendamento agendamento){
+    public Agendamento update(@PathVariable Long id, Agendamento agendamento){
         return agendamentoService.update(id, agendamento);
+    }
+
+    @PatchMapping("/{id}")
+    public Agendamento cancelar(@PathVariable Long id){
+        return agendamentoService.cancelar(id);
     }
 }
