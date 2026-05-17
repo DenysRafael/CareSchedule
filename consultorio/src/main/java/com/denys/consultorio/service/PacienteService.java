@@ -5,6 +5,9 @@ import com.denys.consultorio.config.SecurityConfig;
 import com.denys.consultorio.model.Paciente;
 import com.denys.consultorio.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PacienteService {
+public class PacienteService implements UserDetailsService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private SecurityConfig securityConfig;
 
     @Autowired
     private PacienteRepository pacienteRepository;
@@ -42,9 +42,9 @@ public class PacienteService {
     }
 
 
-
-
-
-
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return pacienteRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Paciente não encontrado!"));
+    }
 }
