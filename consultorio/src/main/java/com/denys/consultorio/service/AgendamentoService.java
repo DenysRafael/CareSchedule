@@ -2,6 +2,7 @@ package com.denys.consultorio.service;
 
 import com.denys.consultorio.model.*;
 import com.denys.consultorio.repository.AgendamentoRepository;
+import com.denys.consultorio.repository.BloqueioRepository;
 import com.denys.consultorio.repository.DisponibilidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class AgendamentoService {
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
+
+    @Autowired
+    private BloqueioRepository bloqueioRepository;
 
     public Agendamento save(Agendamento agendamento) {
         DayOfWeek diaDaSemana = agendamento.getData().getDayOfWeek();
@@ -54,6 +58,12 @@ public class AgendamentoService {
 
         if(!conflitos.isEmpty()) {
             throw new RuntimeException("Já existe um agendamento nesse horário!");
+        }
+
+        List<Bloqueio> bloqueios = bloqueioRepository.findByMedicoAndDiaNaoPodeInicioLessThanEqualAndDiaNaoPodeFimGreaterThanEqual(agendamento.getMedico(), agendamento.getData(), agendamento.getData());
+
+        if(!bloqueios.isEmpty()) {
+            throw new RuntimeException("O médico está indisponivel nessa data!");
         }
 
         return agendamentoRepository.save(agendamento);
