@@ -5,6 +5,7 @@ import com.denys.consultorio.repository.AgendamentoRepository;
 import com.denys.consultorio.repository.BloqueioRepository;
 import com.denys.consultorio.repository.DisponibilidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -74,6 +75,14 @@ public class AgendamentoService {
 
         Agendamento agendamento = agendamentoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Agendamento não encontrado!"));
+
+        String emailLogado = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (!emailLogado.equals(agendamento.getPaciente().getEmail())) {
+
+            throw new RuntimeException("Você não tem permissão para cancelar essa consulta!");
+
+        }
 
         LocalDate agora = LocalDate.now();
 
