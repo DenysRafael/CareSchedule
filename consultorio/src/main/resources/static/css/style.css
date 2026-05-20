@@ -1,0 +1,304 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2d3748;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    padding: 1rem;
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 2rem;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.card-header h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #1a365d;
+    margin-bottom: 0.4rem;
+}
+
+.card-header p {
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 0.4rem;
+}
+
+input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2d3748;
+    background: #fff;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+input:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+input::placeholder {
+    color: #a0aec0;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #2b6cb0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #2c5282;
+}
+
+.btn-primary:active {
+    background-color: #1a365d;
+}
+
+.mensagem {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.mensagem.sucesso {
+    background-color: #f0fff4;
+    color: #276749;
+    border: 1px solid #9ae6b4;
+}
+
+.mensagem.erro {
+    background-color: #fff5f5;
+    color: #9b2c2c;
+    border: 1px solid #feb2b2;
+}
+
+.link-login {
+    text-align: center;
+    margin-top: 1.2rem;
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.link-login a {
+    color: #2b6cb0;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link-login a:hover {
+    text-decoration: underline;
+}
+
+.page-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: block;
+}
+
+.header {
+    background: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header h1 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a365d;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+.btn-logout {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    background: transparent;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: #4a5568;
+    transition: background 0.2s;
+}
+
+.btn-logout:hover {
+    background: #f7fafc;
+}
+
+.main-content {
+    max-width: 720px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    width: auto;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 8px;
+    background: #2b6cb0;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.lista-agendamentos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.card-agendamento {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ag-data {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #2d3748;
+    margin-bottom: 0.25rem;
+}
+
+.ag-tipo {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.ag-desc {
+    font-size: 0.8rem;
+    color: #a0aec0;
+    margin-top: 0.2rem;
+}
+
+.ag-direita {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.status-agendado {
+    background: #ebf8ff;
+    color: #2b6cb0;
+}
+
+.status-cancelado {
+    background: #fff5f5;
+    color: #9b2c2c;
+}
+
+.status-realizado {
+    background: #f0fff4;
+    color: #276749;
+}
+
+.btn-cancelar {
+    font-size: 0.75rem;
+    color: #9b2c2c;
+    background: transparent;
+    border: 1px solid #feb2b2;
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancelar:hover {
+    background: #fff5f5;
+}
+
+.carregando, .sem-dados {
+    text-align: center;
+    color: #a0aec0;
+    padding: 2rem;
+    font-size: 0.9rem;
+}
