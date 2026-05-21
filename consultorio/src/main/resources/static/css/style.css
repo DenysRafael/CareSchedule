@@ -302,3 +302,39 @@ input::placeholder {
     padding: 2rem;
     font-size: 0.9rem;
 }
+
+.form-agendamento {
+    max-width: 520px;
+}
+
+select, textarea {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2d3748;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+select:focus, textarea:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+textarea {
+    resize: vertical;
+}
+
+.btn-voltar {
+    font-size: 0.875rem;
+    color: #4a5568;
+    text-decoration: none;
+}
+
+.btn-voltar:hover {
+    color: #2b6cb0;
+}

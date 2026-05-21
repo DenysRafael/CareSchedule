@@ -32,43 +32,40 @@ public class AgendamentoService {
 
     public Agendamento save(Agendamento agendamento) {
         DayOfWeek diaDaSemana = agendamento.getData().getDayOfWeek();
-        List<Disponibilidade> disponibilidades = disponibilidadeRepository.findByMedicoAndDiaDaSemana(agendamento.getMedico(), diaDaSemana);
+        LocalTime horario = agendamento.getHorario();
 
-        boolean horarioValido = false;
+        if (diaDaSemana == DayOfWeek.SATURDAY || diaDaSemana == DayOfWeek.SUNDAY) {
+            throw new RuntimeException("Agendamentos não são permitidos aos sábados ou domingos.");
+        }
 
-        for(Disponibilidade d : disponibilidades) {
-            if (!agendamento.getHorario().isBefore(d.getHorarioInicio()) && !agendamento.getHorario().isAfter(d.getHorarioFim())) {
-                horarioValido = true;
-                break;
-            }
+        if (horario.isBefore(LocalTime.of(9, 0)) ||
+                (horario.isAfter(LocalTime.of(11, 29)) && horario.isBefore(LocalTime.of(13, 0))) ||
+                horario.isAfter(LocalTime.of(18, 0))) {
+            throw new RuntimeException("Horário fora do expediente (9h às 11h30 ou 13h às 18h).");
         }
 
         LocalDate agora = LocalDate.now();
-
         LocalDate limiteMinimo = agora.plusDays(4);
 
-        if(agendamento.getData().isBefore(limiteMinimo)){
+        if (agendamento.getData().isBefore(limiteMinimo)) {
             throw new RuntimeException("Os agendamentos devem ser realizados com no minimo 4 dias de antecedencia!");
         }
 
-        if (!horarioValido) {
-            throw new RuntimeException("Horário fora da disponibilidade do médico!");
-        }
+        List<Agendamento> conflitos = agendamentoRepository.findByMedicoAndDataAndHorario(
+                agendamento.getMedico(), agendamento.getData(), agendamento.getHorario());
 
-        List<Agendamento> conflitos = agendamentoRepository.findByMedicoAndDataAndHorario (agendamento.getMedico(), agendamento.getData(), agendamento.getHorario());
-
-        if(!conflitos.isEmpty()) {
+        if (!conflitos.isEmpty()) {
             throw new RuntimeException("Já existe um agendamento nesse horário!");
         }
 
-        List<Bloqueio> bloqueios = bloqueioRepository.findByMedicoAndDiaNaoPodeInicioLessThanEqualAndDiaNaoPodeFimGreaterThanEqual(agendamento.getMedico(), agendamento.getData(), agendamento.getData());
+        List<Bloqueio> bloqueios = bloqueioRepository.findByMedicoAndDiaNaoPodeInicioLessThanEqualAndDiaNaoPodeFimGreaterThanEqual(
+                agendamento.getMedico(), agendamento.getData(), agendamento.getData());
 
-        if(!bloqueios.isEmpty()) {
+        if (!bloqueios.isEmpty()) {
             throw new RuntimeException("O médico está indisponivel nessa data!");
         }
 
         return agendamentoRepository.save(agendamento);
-
     }
 
     public Agendamento cancelar(Long id) {
@@ -100,7 +97,8 @@ public class AgendamentoService {
     }
 
     public List<Agendamento> findAll() {
-        return agendamentoRepository.findAll();
+        String emailLogado = SecurityContextHolder.getContext().getAuthentication().getName();
+        return agendamentoRepository.findByPacienteEmail(emailLogado);
     }
 
     public Optional<Agendamento> findById(Long id) {

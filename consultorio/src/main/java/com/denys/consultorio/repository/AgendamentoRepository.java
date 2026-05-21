@@ -12,4 +12,5 @@ import java.util.List;
 
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
     List<Agendamento> findByMedicoAndDataAndHorario(Medico medico, LocalDate data, LocalTime horario);
+    List<Agendamento> findByPacienteEmail(String email);
 }
