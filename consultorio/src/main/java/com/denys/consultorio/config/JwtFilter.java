@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,10 +21,15 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtService jwtService;
+    @Qualifier("pacienteService")
+    private UserDetailsService pacienteService;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    @Qualifier("medicoService")
+    private UserDetailsService medicoService;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -40,7 +46,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String email = jwtService.extrairEmail(token);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            UserDetails userDetails;
+            try {
+                userDetails = pacienteService.loadUserByUsername(email);
+            } catch (Exception e) {
+                userDetails = medicoService.loadUserByUsername(email);
+            }
 
             if (jwtService.tokenValido(token, email)) {
                 UsernamePasswordAuthenticationToken authToken =

@@ -3,6 +3,8 @@ package com.denys.consultorio.repository;
 import com.denys.consultorio.model.Medico;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MedicoRepository extends JpaRepository<Medico, Long> {
+import java.util.Optional;
 
+public interface MedicoRepository extends JpaRepository<Medico, Long> {
+    Optional<Medico> findByEmail(String email);
 }
